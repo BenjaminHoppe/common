@@ -1,21 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
 
-:root {
+/* Light mode */
+/* :root {
   --bg: #808285;
   --bg-2: #8C8E91;
   --solid: #fff;
   --grey: #BCBEC0;
+} */
+
+:root {
+  --bg: #000;
+  --bg-2: #0c0c0c;
+  --solid: #fff;
+  --grey: #929da6;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --bg: #000;
     --bg-2: #0c0c0c;
     --solid: #fff;
     --grey: #929da6;
   }
-
-}
+} */
 
 
 body {
