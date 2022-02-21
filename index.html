@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="./style.css">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>common.wtf — commonly used unicodes</title>
 </head>
 
 <body>
-  <div class="alert-wrapper hide">
+  <div class="alert-wrapper hide hidden">
     <div class="alert">
       copied <span id="copied-unicode">${item.unicode}</span> to clipboard
     </div>
   </div>
 
-
+ 
   <div class="header">
     <div class="header-inner">
 
-      <p class="text"><a href="/"">Common.wtf</a>
-      <p class="text">Made by <a href="https://twitter.com/mrbenjaminhoppe" target="_blank">Benjamin Hoppe</a>
+      <p class="text"><a href="/"">Common.wtf</a></p>
+      <p class="text">by <a href="https://twitter.com/mrbenjaminhoppe" target="_blank">Benjamin Hoppe</a></p>
     </div>
 
-    <p class="header-text">Commonly used unicodes, click to copy.<br> Suggestions? <a href="https://twitter.com/mrbenjaminhoppe" target="_blank">Tweet me.</a></p>
+    <p class="header-text">Commonly used unicodes, click to copy. Suggestions? <a href="https://twitter.com/mrbenjaminhoppe" target="_blank">Tweet me.</a></p>
 
   </div>
 
@@ -134,6 +134,7 @@ const copy = () => {
   // copy to clipbpard 
 
   const el = document.querySelector(".alert-wrapper");
+  el.classList.remove('hidden');
   el.classList.add("show");
   el.classList.remove("hide");
 

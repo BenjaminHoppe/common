@@ -1,37 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
 
 :root {
-  --background: #000;
+  --bg: #808285;
+  --bg-2: #8C8E91;
   --solid: #fff;
-  --grey: #929da6;
-  /* --light-grey: #191919; */
-    --light-grey: #222;
+  --grey: #BCBEC0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000;
+    --bg-2: #0c0c0c;
+    --solid: #fff;
+    --grey: #929da6;
+  }
+
 }
 
 
 body {
-  background-color: var(--background);
+  background-color: var(--bg);
   font-family: 'Inter', sans-serif;
   padding: 0px;
   margin: 0px;
 }
 
 .header {
-  padding: 32px 32px 0px 32px;
+  margin: 32px 32px 0px 32px;
 }
 
 .header-inner {
   display: flex;
   justify-content: space-between;
+  /* margin: 32px 32px 0px 32px; */
+  /* border-bottom: 1px solid var(--bg-2); */
 }
 
 .header-text {
   font-size: 20px;
   text-align: center;
-  margin: 48px 0px 96px 0px;
+  margin: 48px auto 96px auto;
   color: #fff;
   line-height: 150%;
   color: var(--grey);
+  max-width: 450px;
 }
 
 .text {
@@ -68,15 +80,13 @@ a:hover {
   flex-direction: column;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-color: #0c0c0c;
-  border: 2px solid #0c0c0c;
-
+  background-color: var(--bg-2);
+  border: 2px solid var(--bg-2);
 }
 
 .item:hover {
   transition: background-color 0.3s;
   background-color: transparent;
-  
 }
 
 .unicode {
@@ -98,24 +108,16 @@ a:hover {
   position: fixed;
   z-index: 9999;
   top: 24px;
-  -webkit-animation: slide 0.5s forwards;
-  -webkit-animation-delay: 2s;
-  animation: slide 0.5s forwards;
-  animation-delay: 2s;
   width: 100%;
   display: flex;
   justify-content: center;
-
 }
-
-
-
 
 .alert {
   position: absolute;
   transition: all .3s ease-in-out;
   border-radius: 50px;
-  background-color: var(--light-grey);
+  background-color: var(--bg-2);
   color: var(--grey);
   pointer-events: none;
   text-align: center;
@@ -165,58 +167,11 @@ a:hover {
 
 
 
-
-
-#hud-notification {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  z-index: 9;
-  pointer-events: none;
-}
-  #hud-notification .msg {
-    background: #000;
-    color: white;
-    height: 32px;
-    line-height: 32px;
-    font-size: 14px;
-    letter-spacing: 0em;
-    padding: 0 0.7em;
-    border-radius: 4px;
-    opacity: 0.1;
-    transition: 250ms all ease-in;
-    transform: translate3d(0, 71px, 0); /* height + bottom offset + 1 */
-  }
-  #hud-notification.visible .msg {
-    transform: translate3d(0, 0, 0);
-    transition: 120ms all cubic-bezier(0.25, 0.47, 0.44, 0.93);
-    opacity: 1;
-  }
-
-@media screen and (max-width: 1050px) {
-
-  .header-wrapper {
-    padding: 64px 0px 16px 0px;
-  }
-
-  .header-inner-wrapper {
-    margin: 0px auto;
-    max-width: 950px;
-    padding: 0px 24px;
-  }
+@media screen and (max-width: 1100px) {
 
   #container {
-    margin: 264px auto 96px auto;
     padding: 0px 24px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .item:hover {
-    background-color: transparent;
-    transition: background-color 0.3s;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .unicode {
@@ -226,13 +181,10 @@ a:hover {
 
 
 @media screen and (max-width: 450px) {
-  .project-title {
-    font-size: 20px;
-  }
-
-  .header-wrapper {
-    position: static;
-    padding: 32px 0px 32px 0px;
+  .header-text {
+    font-size: 16px;
+    text-align: left;
+    margin: 48px 0px 96px 0px;
   }
 
   #container {
