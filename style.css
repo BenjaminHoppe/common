@@ -72,7 +72,7 @@ a:hover {
   transition: color 0.2s;
 }
 
-#container {
+#container, #items {
   max-width: 1065px;
   margin: 32px auto 96px auto;
   display: grid;

@@ -1,41 +1,22 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="./style.css">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>common.wtf — commonly used unicodes</title>
-</head>
+<!-- HTML -->
+<style>
+  .category-button.active {
+    background-color: red;
+  }
 
-<body>
-  <!-- Alert  -->
-  <div class="alert-wrapper hide hidden">
-    <div class="alert">
-      copied <span id="copied-unicode">${item.unicode}</span> to clipboard
-    </div>
-  </div>
+</style>
+<div id="buttons">
+<!--   <button class="category-button" data-category="all">All</button> -->
+</div>
+<div id="items">
+  <!-- Items will be added here -->
+</div>
 
- <!-- Header -->
-  <div class="header">
-    <div class="header-inner">
-      <p class="text"><a href="/"">Common.wtf</a></p>
-      <p class="text">by <a href="https://twitter.com/mrbenjaminhoppe" target="_blank">Benjamin Hoppe</a></p>
-    </div>
-    <p class="header-text">Commonly used unicodes, click to copy. Suggestions? <a href="https://twitter.com/mrbenjaminhoppe" target="_blank">Tweet me.</a></p>
-  </div>
-
-  <!-- Main unicodes -->
-    <div id="container"></div>
-</body>
-
+<!-- JavaScript -->
 <script>
-
-
-// Get the app element
-var container = document.querySelector('#container');
-
-// data
-var data = [
+  
+  // data
+  var data = [
   {unicode:"←" ,title:"arrow-left", category: "arrow, all"},
   {unicode:"↑" ,title:"arrow-up", category: "arrow, all"},
   {unicode:"→" ,title:"arrow-right", category: "arrow, all"},
@@ -93,61 +74,69 @@ var data = [
   {unicode:"▲" ,title:"triangle", category: "misc, all"},
 ]
 
-container.innerHTML = data.map(item =>
-  `<div class="item">
-    <p class="unicode">${item.unicode}</p>
-    <p class="title">${item.title}</p>
-  </div>`
-).join('')
 
-// copies the unicode
-const items = document.querySelectorAll(".item");
-items.forEach(function(item) {
-  item.addEventListener("click", function() {
-    console.log("hello world");
-    const arrow = item.querySelector('.unicode').innerHTML;
-    const textarea = document.createElement('textarea');
-    textarea.value = arrow;
-    textarea.style.background = 'red';
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'absolute';
-    textarea.style.left = '-9999px';
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    const span = document.querySelector('#copied-unicode');
-    span.innerHTML = arrow;
-    copy();
+
+
+
+  // Create an array of unique categories from the data
+  var categories = data.map(function(item) {
+    return item.category.split(', ')[0];
+  }).filter(function(category, index, self) {
+    return self.indexOf(category) === index;
   });
-});
-
-// Feedback menu 
-
-const copy = () => {
-  // copy to clipbpard 
-
-  const el = document.querySelector(".alert-wrapper");
-  el.classList.remove('hidden');
-  el.classList.add("show");
-  el.classList.remove("hide");
-
-  setTimeout(() => {
-    el.classList.remove("show");
-    el.classList.add("hide");
-  }, 2000);
-
-}
-
+  
+  // Add the "all" category to the beginning of the array
+  categories.unshift('all');
+  
+  // Add a button for each category
+  categories.forEach(function(category) {
+    var button = document.createElement('button');
+    button.classList.add('category-button');
+    button.setAttribute('data-category', category);
+    button.textContent = category;
+    
+    // Count the number of items in the category
+    var count = data.filter(function(item) {
+      return category === 'all' || item.category.indexOf(category) !== -1;
+    }).length;
+    
+    // Add the count to the button
+    var countElement = document.createElement('span');
+    countElement.classList.add('category-count');
+    countElement.textContent = '(' + count + ')';
+    button.appendChild(countElement);
+    
+    document.getElementById('buttons').appendChild(button);
+  });
+  
+  // Add a click event listener to the buttons
+  document.querySelectorAll('.category-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      // Get the selected category
+      var category = this.getAttribute('data-category');
+      
+      // Remove the active class from all buttons
+      document.querySelectorAll('.category-button').forEach(function(button) {
+        button.classList.remove('active');
+      });
+      
+      // Add the active class to the selected button
+      this.classList.add('active');
+      
+      // Clear the items from the page
+      document.getElementById('items').innerHTML = '';
+      
+      // Filter the data to only include items in the selected category
+      var filteredData = data.filter(function(item) {
+        return category === 'all' || item.category.indexOf(category) !== -1;
+      });
+      
+      // Add the filtered items to the page
+      filteredData.forEach(function(item) {
+        var itemElement = document.createElement('div');
+        itemElement.textContent = item.unicode;
+        document.getElementById('items').appendChild(itemElement);
+      });
+    });
+  });
 </script>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZB1ZNN1Z9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4ZB1ZNN1Z9');
-
-
