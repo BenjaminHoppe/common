@@ -1,22 +1,4 @@
-<!-- HTML -->
-<style>
-  .category-button.active {
-    background-color: red;
-  }
-
-</style>
-<div id="buttons">
-  <!-- <button class="category-button" data-category="all">All</button> -->
-</div>
-<div id="items">
-  <!-- Items will be added here -->
-</div>
-
-<!-- JavaScript -->
-<script>
-  
-  // data
-  var data = [
+var data = [
   {unicode:"←" ,title:"arrow-left", category: "arrow, all"},
   {unicode:"↑" ,title:"arrow-up", category: "arrow, all"},
   {unicode:"→" ,title:"arrow-right", category: "arrow, all"},
@@ -75,68 +57,36 @@
 ]
 
 
+const Handler = (request, response) =>  {
+  let filteredUnicodes = []
+  console.log(request.query)
+  // This only runs if there's a ? query
+  if (request.query.query) {
+    filteredUnicodes = data.filter((unicode) => {
+      return unicode.title === request.query.query
+    })
+    if (filteredUnicodes.length === 0) {
+      response.send(['No results found'])
+      return
+    }
+  }
+  else if (request.query.category) {
+    filteredUnicodes = data.filter((unicode) => {
+      return unicode.category.includes(request.query.category)
+    })
+    if (filteredUnicodes.length === 0) {
+      response.send(['No category found'])
+      return
+    }
+  }
+  else if (!request.query.query && !request.query.category) {
+    response.send(['No query found'])
+    return
+  }
 
 
+  response.send(filteredUnicodes)
+  return
+}
+export default Handler
 
-  // Create an array of unique categories from the data
-  var categories = data.map(function(item) {
-    return item.category.split(', ')[0];
-  }).filter(function(category, index, self) {
-    return self.indexOf(category) === index;
-  });
-  
-  // Add the "all" category to the beginning of the array
-  categories.unshift('all');
-  
-  // Add a button for each category
-  categories.forEach(function(category) {
-    var button = document.createElement('button');
-    button.classList.add('category-button');
-    button.setAttribute('data-category', category);
-    button.textContent = category;
-    
-    // Count the number of items in the category
-    var count = data.filter(function(item) {
-      return category === 'all' || item.category.indexOf(category) !== -1;
-    }).length;
-    
-    // Add the count to the button
-    var countElement = document.createElement('span');
-    countElement.classList.add('category-count');
-    countElement.textContent = '(' + count + ')';
-    button.appendChild(countElement);
-    
-    document.getElementById('buttons').appendChild(button);
-  });
-  
-  // Add a click event listener to the buttons
-  document.querySelectorAll('.category-button').forEach(function(button) {
-    button.addEventListener('click', function() {
-      // Get the selected category
-      var category = this.getAttribute('data-category');
-      
-      // Remove the active class from all buttons
-      document.querySelectorAll('.category-button').forEach(function(button) {
-        button.classList.remove('active');
-      });
-      
-      // Add the active class to the selected button
-      this.classList.add('active');
-      
-      // Clear the items from the page
-      document.getElementById('items').innerHTML = '';
-      
-      // Filter the data to only include items in the selected category
-      var filteredData = data.filter(function(item) {
-        return category === 'all' || item.category.indexOf(category) !== -1;
-      });
-      
-      // Add the filtered items to the page
-      filteredData.forEach(function(item) {
-        var itemElement = document.createElement('div');
-        itemElement.textContent = item.unicode;
-        document.getElementById('items').appendChild(itemElement);
-      });
-    });
-  });
-</script>
